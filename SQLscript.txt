@@ -1,0 +1,25 @@
+CREATE TABLE Departamentos(
+	idDepartamento SERIAL NOT NULL,
+	nombre VARCHAR(50),
+	ubicacion VARCHAR(50),
+	CONSTRAINT PK_Departamentos PRIMARY KEY (idDepartamento)
+);
+
+CREATE TABLE Departamentos(
+	idDepartamento SERIAL NOT NULL,
+	nombre VARCHAR(50),
+	ubicacion VARCHAR(50),
+	CONSTRAINT PK_Departamentos PRIMARY KEY (idDepartamento)
+);
+
+CREATE TABLE Registros(
+	idRegistro SERIAL NOT NULL,
+	idUsuario VARCHAR(8),
+	entrada BOOL,
+	fechaRegistro DATE,
+	horaRegistro TIME,
+	temperatura FLOAT,
+	CONSTRAINT PK_Registros PRIMARY KEY (idRegistro),
+	CONSTRAINT FK_Registros_Usuarios
+		FOREIGN KEY (idUsuario) REFERENCES Usuarios(idUsuario)
+);
