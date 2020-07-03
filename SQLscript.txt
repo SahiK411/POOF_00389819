@@ -5,11 +5,18 @@ CREATE TABLE Departamentos(
 	CONSTRAINT PK_Departamentos PRIMARY KEY (idDepartamento)
 );
 
-CREATE TABLE Departamentos(
-	idDepartamento SERIAL NOT NULL,
+CREATE TABLE Usuarios(
+	idUsuario VARCHAR(8) UNIQUE NOT NULL,
+	idDepartamento INT,
+	contrasena VARCHAR(20),
 	nombre VARCHAR(50),
-	ubicacion VARCHAR(50),
-	CONSTRAINT PK_Departamentos PRIMARY KEY (idDepartamento)
+	apellido VARCHAR(50),
+	dui VARCHAR(10),
+	rolUsuario VARCHAR(2),
+	fechaNacimiento DATE,
+	CONSTRAINT PK_Usuarios PRIMARY KEY (idUsuario),
+	CONSTRAINT FK_Usuarios_Departamentos 
+		FOREIGN KEY (idDepartamento) REFERENCES departamentos(idDepartamento) ON DELETE CASCADE
 );
 
 CREATE TABLE Registros(
@@ -21,5 +28,6 @@ CREATE TABLE Registros(
 	temperatura FLOAT,
 	CONSTRAINT PK_Registros PRIMARY KEY (idRegistro),
 	CONSTRAINT FK_Registros_Usuarios
-		FOREIGN KEY (idUsuario) REFERENCES Usuarios(idUsuario)
+		FOREIGN KEY (idUsuario) REFERENCES Usuarios(idUsuario) ON DELETE CASCADE
 );
+

@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Examen_Parcial.DecoratorPattern
+namespace Examen.DecoratorPattern
 {
     public class DGuardView : ViewDecorator
     {
@@ -26,15 +26,15 @@ namespace Examen_Parcial.DecoratorPattern
             registryButton.TextAlign = ContentAlignment.MiddleCenter;
             registryButton.Enabled = true;
 
-            if (display is MainView)
+            if (Display is MainView)
             {
-                (display as MainView).tableLayoutPanel1.Controls.Add(historyButton, 1, 3);
-                (display as MainView).tableLayoutPanel1.SetColumnSpan(historyButton, 1);
-                (display as MainView).tableLayoutPanel1.SetRowSpan(historyButton, 1);
+                (Display as MainView).tableLayoutPanel1.Controls.Add(historyButton, 1, 3);
+                (Display as MainView).tableLayoutPanel1.SetColumnSpan(historyButton, 1);
+                (Display as MainView).tableLayoutPanel1.SetRowSpan(historyButton, 1);
 
-                (display as MainView).tableLayoutPanel1.Controls.Add(registryButton, 3, 3);
-                (display as MainView).tableLayoutPanel1.SetColumnSpan(registryButton, 1);
-                (display as MainView).tableLayoutPanel1.SetRowSpan(registryButton, 1);
+                (Display as MainView).tableLayoutPanel1.Controls.Add(registryButton, 3, 3);
+                (Display as MainView).tableLayoutPanel1.SetColumnSpan(registryButton, 1);
+                (Display as MainView).tableLayoutPanel1.SetRowSpan(registryButton, 1);
             }
             else
             {

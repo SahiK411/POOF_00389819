@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Examen.UserControls;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Examen_Parcial.DecoratorPattern
+namespace Examen.DecoratorPattern
 {
     public class DUserView : ViewDecorator
     {
@@ -18,17 +19,29 @@ namespace Examen_Parcial.DecoratorPattern
             historyButton.Text = "Historial de Usuario";
             historyButton.TextAlign = ContentAlignment.MiddleCenter;
             historyButton.Enabled = true;
+            historyButton.Click += HistoryButton_Click;
 
-            if (display is MainView)
+            if (Display is MainView)
             {
-                (display as MainView).tableLayoutPanel1.Controls.Add(historyButton, 1, 3);
-                (display as MainView).tableLayoutPanel1.SetColumnSpan(historyButton, 3);
-                (display as MainView).tableLayoutPanel1.SetRowSpan(historyButton, 2);
+                (Display as MainView).tableLayoutPanel1.Controls.Add(historyButton, 1, 3);
+                (Display as MainView).tableLayoutPanel1.SetColumnSpan(historyButton, 3);
+                (Display as MainView).tableLayoutPanel1.SetRowSpan(historyButton, 2);
             }
             else
             {
                 throw new Exception("ConstructView Display Error");
             }
+        }
+
+        private void HistoryButton_Click(object sender, EventArgs e)
+        {
+            (Display as MainView).Hide();
+            HistoryUC currentUC = new HistoryUC((Display as MainView).MainUser);
+            currentUC.BackButton = (Display) => {
+                Control[] controls = Display.Parent.Controls.Find("MainView", true);
+                Display.Dispose();
+                controls[0].Show();
+            };
         }
     }
 }

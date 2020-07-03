@@ -1,4 +1,4 @@
-﻿namespace Examen_Parcial.DecoratorPattern
+﻿namespace Examen.DecoratorPattern
 {
     partial class MainView
     {
@@ -86,6 +86,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "MainView";
             this.Size = new System.Drawing.Size(865, 537);

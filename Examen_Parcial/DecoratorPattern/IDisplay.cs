@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Examen_Parcial.DecoratorPattern
+namespace Examen.DecoratorPattern
 {
     public interface IDisplay
     {

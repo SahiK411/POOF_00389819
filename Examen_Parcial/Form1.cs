@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Examen.Classes;
+using Examen.UserControls;
 
 namespace Examen
 {
@@ -15,6 +17,7 @@ namespace Examen
         public Form1()
         {
             InitializeComponent();
+            WindowState = FormWindowState.Maximized;
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Examen.UserControls;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Examen_Parcial.DecoratorPattern
+namespace Examen.DecoratorPattern
 {
     public class DAdminView : ViewDecorator
     {
@@ -18,6 +19,7 @@ namespace Examen_Parcial.DecoratorPattern
             historyButton.Text = "Historial de Usuario";
             historyButton.TextAlign = ContentAlignment.MiddleCenter;
             historyButton.Enabled = true;
+            historyButton.Click += HistoryButton_Click;
 
             Button registryButton = new Button();
             registryButton.Dock = DockStyle.Fill;
@@ -40,28 +42,42 @@ namespace Examen_Parcial.DecoratorPattern
             summaryButton.TextAlign = ContentAlignment.MiddleCenter;
             summaryButton.Enabled = true;
 
-            if (display is MainView)
+            if (Display is MainView)
             {
-                (display as MainView).tableLayoutPanel1.Controls.Add(historyButton, 1, 2);
-                (display as MainView).tableLayoutPanel1.SetColumnSpan(historyButton, 1);
-                (display as MainView).tableLayoutPanel1.SetRowSpan(historyButton, 1);
+                (Display as MainView).tableLayoutPanel1.Controls.Add(historyButton, 1, 2);
+                (Display as MainView).tableLayoutPanel1.SetColumnSpan(historyButton, 1);
+                (Display as MainView).tableLayoutPanel1.SetRowSpan(historyButton, 1);
 
-                (display as MainView).tableLayoutPanel1.Controls.Add(registryButton, 3, 2);
-                (display as MainView).tableLayoutPanel1.SetColumnSpan(registryButton, 1);
-                (display as MainView).tableLayoutPanel1.SetRowSpan(registryButton, 1);
+                (Display as MainView).tableLayoutPanel1.Controls.Add(registryButton, 3, 2);
+                (Display as MainView).tableLayoutPanel1.SetColumnSpan(registryButton, 1);
+                (Display as MainView).tableLayoutPanel1.SetRowSpan(registryButton, 1);
 
-                (display as MainView).tableLayoutPanel1.Controls.Add(manageButton, 1, 4);
-                (display as MainView).tableLayoutPanel1.SetColumnSpan(manageButton, 1);
-                (display as MainView).tableLayoutPanel1.SetRowSpan(manageButton, 1);
+                (Display as MainView).tableLayoutPanel1.Controls.Add(manageButton, 1, 4);
+                (Display as MainView).tableLayoutPanel1.SetColumnSpan(manageButton, 1);
+                (Display as MainView).tableLayoutPanel1.SetRowSpan(manageButton, 1);
 
-                (display as MainView).tableLayoutPanel1.Controls.Add(summaryButton, 3, 4);
-                (display as MainView).tableLayoutPanel1.SetColumnSpan(summaryButton, 1);
-                (display as MainView).tableLayoutPanel1.SetRowSpan(summaryButton, 1);
+                (Display as MainView).tableLayoutPanel1.Controls.Add(summaryButton, 3, 4);
+                (Display as MainView).tableLayoutPanel1.SetColumnSpan(summaryButton, 1);
+                (Display as MainView).tableLayoutPanel1.SetRowSpan(summaryButton, 1);
             }
             else
             {
                 throw new Exception("ConstructView Display Error");
             }
+        }
+
+        private void HistoryButton_Click(object sender, EventArgs e)
+        {
+            (Display as MainView).Hide();
+            HistoryUC currentUC = new HistoryUC((Display as MainView).MainUser);
+            currentUC.BackButton = (Display) => {
+                Control[] controls = Display.Parent.Controls.Find("MainView", true);
+                Display.Dispose();
+                controls[0].Show();
+            };
+            currentUC.Enabled = true;
+            currentUC.Dock = DockStyle.Fill;
+            (Display as UserControl).Parent.Controls.Add(currentUC);
         }
     }
 }

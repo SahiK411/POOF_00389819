@@ -28,13 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.logInView1 = new Examen.UserControls.LogInView();
+            this.SuspendLayout();
+            // 
+            // logInView1
+            // 
+            this.logInView1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.logInView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logInView1.Location = new System.Drawing.Point(0, 0);
+            this.logInView1.Name = "logInView1";
+            this.logInView1.Size = new System.Drawing.Size(800, 450);
+            this.logInView1.TabIndex = 0;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.logInView1);
+            this.Name = "Form1";
             this.Text = "Form1";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private UserControls.LogInView logInView1;
     }
 }
 
