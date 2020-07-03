@@ -18,28 +18,33 @@ namespace Examen.UserControls
             var dt = DBConnect.ExecuteQuery("SELECT * FROM registros ORDER BY fechaRegistro, horaRegistro ASC");
             dataGridView1.DataSource = dt;
 
-            //SegundoTab
-            var ep = DBConnect.ExecuteQuery("SELECT idUsuario, COUNT(idUsuario) FROM registros GROUP BY idUsuario;");
-            var rc = ep.Rows.Count;
-            DataTable newDT = new DataTable();
-            newDT.Columns.Clear();
-            newDT.Columns.Add("idUsuarios");
-            newDT.Columns.Add("count");
-            for(int i = 0; i < rc; i++)
+            try
             {
-                var dr = ep.Rows[i];
-                if(Convert.ToInt32(dr[1].ToString()) % 2 != 0)
+                //SegundoTab
+                var ep = DBConnect.ExecuteQuery("SELECT idUsuario, COUNT(idUsuario) FROM registros GROUP BY idUsuario;");
+                var rc = ep.Rows.Count;
+                DataTable newDT = new DataTable();
+                newDT.Columns.Clear();
+                newDT.Columns.Add("idUsuarios");
+
+                for(int i = 0; i < rc; i++)
                 {
-                    newDT.Rows.Add(dr);
+                    var dr = ep.Rows[i];
+                    if(Convert.ToInt32(dr[1].ToString()) % 2 != 0)
+                    {
+                        newDT.Rows.Add(dr[0].ToString());
+                    }
                 }
+                dataGridView2.DataSource = newDT;
+            }
+            catch
+            {
+                MessageBox.Show("Error de Conexion");
             }
 
-            newDT.Columns.RemoveAt(1);
-            dataGridView2.DataSource = newDT;
-
             //Tercer Tab
-            var pd = DBConnect.ExecuteQuery($"SELECT d.nombre, count(u.idDepartamento) as frecuencia FROM REGISTRO r, " +
-                $"DEPARTAMENTO d, USUARIO u WHERE r.idUsuario = u.idUsuario AND d.idDepartamento = u.idDepartamento " +
+            var pd = DBConnect.ExecuteQuery($"SELECT d.nombre, count(u.idDepartamento) as frecuencia FROM REGISTROS r, " +
+                $"DEPARTAMENTOS d, USUARIOS u WHERE r.idUsuario = u.idUsuario AND d.idDepartamento = u.idDepartamento " +
                 $"GROUP BY d.idDepartamento ORDER BY frecuencia DESC LIMIT 1;");
             dataGridView3.DataSource = pd;
         }
@@ -53,35 +58,43 @@ namespace Examen.UserControls
         {
             var dt = DBConnect.ExecuteQuery("SELECT * FROM registros ORDER BY fechaRegistro, horaRegistro DESC");
             dataGridView1.DataSource = dt;
+            MessageBox.Show("Operacion Completada Exitosamente.");
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            var ep = DBConnect.ExecuteQuery("SELECT idUsuario, COUNT(idUsuario) FROM registros GROUP BY idUsuario;");
-            var rc = ep.Rows.Count;
-            DataTable newDT = new DataTable();
-            newDT.Columns.Clear();
-            newDT.Columns.Add("idUsuarios");
-            newDT.Columns.Add("count");
-            for (int i = 0; i < rc; i++)
+            try
             {
-                var dr = ep.Rows[i];
-                if (Convert.ToInt32(dr[1].ToString()) % 2 != 0)
-                {
-                    newDT.Rows.Add(dr);
-                }
-            }
+                var ep = DBConnect.ExecuteQuery("SELECT idUsuario, COUNT(idUsuario) FROM registros GROUP BY idUsuario;");
+                var rc = ep.Rows.Count;
+                DataTable newDT = new DataTable();
+                newDT.Columns.Clear();
+                newDT.Columns.Add("idUsuarios");
 
-            newDT.Columns.RemoveAt(1);
-            dataGridView2.DataSource = newDT;
+                for (int i = 0; i < rc; i++)
+                {
+                    var dr = ep.Rows[i];
+                    if (Convert.ToInt32(dr[1].ToString()) % 2 != 0)
+                    {
+                        newDT.Rows.Add(dr[0].ToString());
+                    }
+                }
+                dataGridView2.DataSource = newDT;
+                MessageBox.Show("Operacion Completada Exitosamente.");
+            }
+            catch
+            {
+                MessageBox.Show("Error de Conexion");
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            var pd = DBConnect.ExecuteQuery($"SELECT d.nombre, count(u.idDepartamento) as frecuencia FROM REGISTRO r, " +
-                $"DEPARTAMENTO d, USUARIO u WHERE r.idUsuario = u.idUsuario AND d.idDepartamento = u.idDepartamento " +
+            var pd = DBConnect.ExecuteQuery($"SELECT d.nombre, count(u.idDepartamento) as frecuencia FROM REGISTROS r, " +
+                $"DEPARTAMENTOS d, USUARIOS u WHERE r.idUsuario = u.idUsuario AND d.idDepartamento = u.idDepartamento " +
                 $"GROUP BY d.idDepartamento ORDER BY frecuencia DESC LIMIT 1;");
             dataGridView3.DataSource = pd;
+            MessageBox.Show("Operacion Completada Exitosamente.");
         }
     }
 }

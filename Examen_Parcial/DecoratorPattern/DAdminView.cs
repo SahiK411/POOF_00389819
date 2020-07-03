@@ -27,6 +27,7 @@ namespace Examen.DecoratorPattern
             registryButton.Text = "Registrar Entrada/Salida";
             registryButton.TextAlign = ContentAlignment.MiddleCenter;
             registryButton.Enabled = true;
+            registryButton.Click += RegistryButton_Click;
 
             Button manageButton = new Button();
             manageButton.Dock = DockStyle.Fill;
@@ -34,6 +35,7 @@ namespace Examen.DecoratorPattern
             manageButton.Text = "Manejar Usuarios";
             manageButton.TextAlign = ContentAlignment.MiddleCenter;
             manageButton.Enabled = true;
+            manageButton.Click += ManageButton_Click;
 
             Button summaryButton = new Button();
             summaryButton.Dock = DockStyle.Fill;
@@ -41,6 +43,7 @@ namespace Examen.DecoratorPattern
             summaryButton.Text = "Ver Resumenes";
             summaryButton.TextAlign = ContentAlignment.MiddleCenter;
             summaryButton.Enabled = true;
+            summaryButton.Click += SummaryButton_Click;
 
             if (Display is MainView)
             {
@@ -72,8 +75,50 @@ namespace Examen.DecoratorPattern
             HistoryUC currentUC = new HistoryUC((Display as MainView).MainUser);
             currentUC.BackButton = (Display) => {
                 Control[] controls = Display.Parent.Controls.Find("MainView", true);
-                Display.Dispose();
                 controls[0].Show();
+                Display.Dispose();
+            };
+            currentUC.Enabled = true;
+            currentUC.Dock = DockStyle.Fill;
+            (Display as UserControl).Parent.Controls.Add(currentUC);
+        }
+
+        private void RegistryButton_Click(object sender, EventArgs e)
+        {
+            (Display as MainView).Hide();
+            RegistryUC currentUC = new RegistryUC();
+            currentUC.BackButton = (Display) => {
+                Control[] controls = Display.Parent.Controls.Find("MainView", true);
+                controls[0].Show();
+                Display.Dispose();
+            };
+            currentUC.Enabled = true;
+            currentUC.Dock = DockStyle.Fill;
+            (Display as UserControl).Parent.Controls.Add(currentUC);
+        }
+
+        private void ManageButton_Click(object sender, EventArgs e)
+        {
+            (Display as MainView).Hide();
+            ManageUC currentUC = new ManageUC();
+            currentUC.BackButton = (Display) => {
+                Control[] controls = Display.Parent.Controls.Find("MainView", true);
+                controls[0].Show();
+                Display.Dispose();
+            };
+            currentUC.Enabled = true;
+            currentUC.Dock = DockStyle.Fill;
+            (Display as UserControl).Parent.Controls.Add(currentUC);
+        }
+
+        private void SummaryButton_Click(object sender, EventArgs e)
+        {
+            (Display as MainView).Hide();
+            SummaryUC currentUC = new SummaryUC();
+            currentUC.BackButton = (Display) => {
+                Control[] controls = Display.Parent.Controls.Find("MainView", true);
+                controls[0].Show();
+                Display.Dispose();
             };
             currentUC.Enabled = true;
             currentUC.Dock = DockStyle.Fill;

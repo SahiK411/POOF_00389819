@@ -20,6 +20,10 @@ namespace Examen.UserControls
             var dt = DBConnect.ExecuteQuery($"SELECT * FROM usuarios");
 
             dataGridView1.DataSource = dt;
+
+            dt = DBConnect.ExecuteQuery($"SELECT * FROM departamentos;");
+
+            dataGridView2.DataSource = dt;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -94,6 +98,8 @@ namespace Examen.UserControls
             DBConnect.ExecuteNonQuery($"INSERT INTO usuarios(idUsuario, nombre, apellido, contrasena, idDepartamento, dui, " +
                 $"rolUsuario, fechaNacimiento) VALUES('{id}', '{name}', '{lastName}', '{password}', {deptID}, '{dui}', " +
                 $"'{role}', '{date}');");
+
+            MessageBox.Show("Operacion Completada Exitosamente.");
         }
 
         #region Validations
@@ -102,7 +108,7 @@ namespace Examen.UserControls
             if (textBox1.Text.Length != 8)
             {
                 MessageBox.Show("El carnet introducido no es valido.");
-                return;
+                throw new Exception();
             }
             string userID;
             try
@@ -122,10 +128,11 @@ namespace Examen.UserControls
             if (textBox6.Text.Equals("########-#") || textBox6.Text.Length != 10)
             {
                 MessageBox.Show("Por favor ingrese un DUI Valido");
-                return;
+                throw new Exception();
             }
             string dui = textBox6.Text;
-            if (dui != (dui.Substring(0, 7) + "-" + dui.Substring(8, 1)))
+            string substring = (dui.Substring(0, 8) + "-" + dui.Substring(9, 1));
+            if (!dui.Equals(substring))
             {
                 MessageBox.Show("Por favor ingrese un DUI Valido");
                 throw new Exception();
@@ -147,7 +154,7 @@ namespace Examen.UserControls
 
         private void ValidateDeptID(string id)
         {
-            var dt = DBConnect.ExecuteQuery($"SELECT idDepartamentos FROM Departamentos WHERE idDepartamento = {Convert.ToInt32(id)}");
+            var dt = DBConnect.ExecuteQuery($"SELECT idDepartamento FROM Departamentos WHERE idDepartamento = {Convert.ToInt32(id)}");
 
             if (dt.ExtendedProperties.Values.Count.Equals(0) && dt.Rows.Count == 0)
             {
@@ -178,7 +185,8 @@ namespace Examen.UserControls
                 return;
             }
 
-            DBConnect.ExecuteNonQuery($"DELETE * FROM usuarios WHERE idUsuario = '{textBox8.Text}'");
+            DBConnect.ExecuteNonQuery($"DELETE FROM usuarios WHERE idUsuario = '{textBox8.Text}'");
+            MessageBox.Show("Operacion Completada Exitosamente.");
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -186,6 +194,40 @@ namespace Examen.UserControls
             var dt = DBConnect.ExecuteQuery($"SELECT * FROM usuarios");
 
             dataGridView1.DataSource = dt;
+            MessageBox.Show("Operacion Completada Exitosamente.");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (textBox10.Text.Length == 0 || textBox9.Text.Length == 0)
+            {
+                MessageBox.Show("No se pueden dejar espacios en blanco.");
+                return;
+            }
+
+            if (textBox9.Text.Length > 50 || textBox10.Text.Length > 50)
+            {
+                MessageBox.Show("Error: Un nombre excede 50 caracteres.");
+            }
+            try
+            {
+                DBConnect.ExecuteNonQuery($"INSERT INTO departamentos(nombre, ubicacion) " +
+                    $"VALUES('{textBox9.Text}', '{textBox10.Text}');");
+
+                MessageBox.Show("Operacion Completada Exitosamente.");
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            var dt = DBConnect.ExecuteQuery($"SELECT * FROM departamentos;");
+
+            dataGridView2.DataSource = dt;
+            MessageBox.Show("Operacion Completada Exitosamente.");
         }
     }
 }

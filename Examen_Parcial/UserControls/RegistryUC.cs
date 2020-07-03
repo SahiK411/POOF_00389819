@@ -66,11 +66,22 @@ namespace Examen.UserControls
                     return;
             }
 
-            var date = DateTime.Today;
-            var hour = DateTime.Now.TimeOfDay;
+            var date = DateTime.Today.ToString();
+            var hour = DateTime.Now.TimeOfDay.ToString();
 
+            try
+            {
             DBConnect.ExecuteNonQuery($"INSERT INTO registros(idUsuario, entrada, fechaRegistro, horaRegistro, temperatura) " +
-                $"VALUES('{id}', {entrance}, '{date}', '{hour.Hours}:{hour.Minutes}:{hour.Seconds}', {temperature})");
+                $"VALUES('{id}', {entrance}, '{date.Substring(6, 4) + "/" + date.Substring(3, 2) + "/" + date.Substring(0, 2)}', " +
+                $"'{hour.Substring(0,2)}:{hour.Substring(3, 2)}:{hour.Substring(6,2)}', " +
+                $"{temperature})");
+                MessageBox.Show("Operacion Completada Exitosamente.");
+            }
+            catch
+            {
+                MessageBox.Show("Error de Conexion");
+                return;
+            }
         }
     }
 }

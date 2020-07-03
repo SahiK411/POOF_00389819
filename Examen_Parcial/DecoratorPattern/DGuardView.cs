@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Examen.UserControls;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -18,6 +19,7 @@ namespace Examen.DecoratorPattern
             historyButton.Text = "Historial de Usuario";
             historyButton.TextAlign = ContentAlignment.MiddleCenter;
             historyButton.Enabled = true;
+            historyButton.Click += HistoryButton_Click;
 
             Button registryButton = new Button();
             registryButton.Dock = DockStyle.Fill;
@@ -25,6 +27,7 @@ namespace Examen.DecoratorPattern
             registryButton.Text = "Registrar Entrada/Salida";
             registryButton.TextAlign = ContentAlignment.MiddleCenter;
             registryButton.Enabled = true;
+            registryButton.Click += RegistryButton_Click;
 
             if (Display is MainView)
             {
@@ -40,6 +43,34 @@ namespace Examen.DecoratorPattern
             {
                 throw new Exception("ConstructView Display Error");
             }
+        }
+
+        private void HistoryButton_Click(object sender, EventArgs e)
+        {
+            (Display as MainView).Hide();
+            HistoryUC currentUC = new HistoryUC((Display as MainView).MainUser);
+            currentUC.BackButton = (Display) => {
+                Control[] controls = Display.Parent.Controls.Find("MainView", true);
+                controls[0].Show();
+                Display.Dispose();
+            };
+            currentUC.Enabled = true;
+            currentUC.Dock = DockStyle.Fill;
+            (Display as UserControl).Parent.Controls.Add(currentUC);
+        }
+
+        private void RegistryButton_Click(object sender, EventArgs e)
+        {
+            (Display as MainView).Hide();
+            RegistryUC currentUC = new RegistryUC();
+            currentUC.BackButton = (Display) => {
+                Control[] controls = Display.Parent.Controls.Find("MainView", true);
+                controls[0].Show();
+                Display.Dispose();
+            };
+            currentUC.Enabled = true;
+            currentUC.Dock = DockStyle.Fill;
+            (Display as UserControl).Parent.Controls.Add(currentUC);
         }
     }
 }
